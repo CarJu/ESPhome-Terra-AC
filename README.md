@@ -1,22 +1,45 @@
-# ESPhome-Terra-AC
+**# ESPhome-Terra-AC: Cost-efficient EV Charging with ABB Terra Wallbox**
 
-I own an ABB Terra AC wallbox (TAC-W11-G5-R-0) and I wanded to control the outputpower to load my ev most cost efficient. 
+This ESPhome project empowers you to control the output power of your ABB Terra AC wallbox (TAC-W11-G5-R-0) for a more cost-effective electric vehicle (EV) charging experience. 
 
-I will save me explaining flashing ESPhome or using variables in Home assistant.
+We'll keep this guide focused on the practical implementation, assuming you're already familiar with flashing ESPhome and using variables in Home Assistant.
 
-But I will give an example how I solved my problem:
+**Problem Solved: Optimize EV Charging with Solar Surplus Integration**
 
-My Hardware
-- Wemos D1 Mini Pro (Esp8266) or any else ESP-Chip with 3,3 and 5V Power Pin
-- TTL to RS485 converter with automatic flow control
-- Some jumpercables and solder iron
+This project tackles the challenge of maximizing EV charging efficiency by leveraging your home solar power production. By controlling the wallbox output power, you can prioritize using excess solar energy (surplus) for charging, minimizing reliance on the grid and potentially reducing charging costs.
 
-Connecting
-Ground and 3,3V you can get from jtag connector in the upper right of the wallbox.
-Because the D1 Mini Board has no second Ground-Pin I needed to solder an 3-Way ground-jumper-cable (1-Wallbox, 2-ESP,3-RS485)
-5V for the RS485 converter I got from D1 Mini Board.
+**Required Hardware:**
 
-Usage in Node-Red
-I send my PV-surpus to the topic tac11/carport/max_power and the wallbox will regulate round about to that value. If you dont want to import energy from grid, may you reduce that value to be save. In fact you can only limit amperes in the wallbox and the calculation from ampere to watt not 100% accurate.  
+* Wemos D1 Mini Pro (ESP8266) or any compatible ESP chip with 3.3V and 5V power pins
+* TTL to RS485 converter with automatic flow control
+* Jumper cables
+* Soldering iron
 
-Please notice that my code is and will be tested with my type of wallbox.
+**Connecting Your Hardware:**
+
+1. **Ground and 3.3V:** Locate the JTAG connector in the upper right corner of your wallbox. Connect the ground and 3.3V pins from the ESP board to the corresponding pins on the JTAG connector.
+2. **Grounding the ESP (Important):** Since the Wemos D1 Mini lacks a dedicated ground pin, create a 3-way ground jumper cable. Connect one end to the wallbox ground, another to the ESP ground, and the last one to the RS485 converter ground.
+3. **5V Power:** Supply 5V power to the RS485 converter from the D1 Mini board's 5V pin.
+
+**Seamless Integration with Node-RED**
+
+The project utilizes Node-RED to establish communication between your ESP device and the wallbox. You can send your real-time solar surplus data to the topic `tac11/carport/max_power`. The wallbox will then automatically adjust its output power to stay within the specified limit.
+
+**Prioritizing Self-Sufficiency, Avoiding Grid Dependence**
+
+This setup prioritizes using your solar surplus for charging, minimizing reliance on the grid. However, it's crucial to remember that the wallbox directly regulates amperage, and the conversion to watts may not be perfectly accurate. 
+
+**Important Considerations:**
+
+* **Minimum Charging Power:**  Most EVs will stop charging if the surplus falls below 4125 watts (approximately 6 amps at 400 volts).
+* **Modbus Communication Reference:** This project references the ABB Terra AC Charger Modbus Communication documentation for detailed Modbus information: [https://library.e.abb.com/public/4124e0d39f614ba7b0a7a6f7a2ce1f99/ABB_Terra_AC_Charger_ModbusCommunication_v1.7.pdf](https://library.e.abb.com/public/4124e0d39f614ba7b0a7a6f7a2ce1f99/ABB_Terra_AC_Charger_ModbusCommunication_v1.7.pdf)
+
+**Disclaimer:**
+
+Please note that this code is specifically tested and verified with my ABB Terra wallbox model (TAC-W11-G5-R-0) running firmware version 1.8.21. Compatibility with other models or firmware versions may require adjustments.
+
+**Additional Notes:**
+
+This description is improved with the help of a language model (Google Gemini).
+Feel free to contribute to this project by sharing your experiences or suggesting improvements!
+
